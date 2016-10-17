@@ -1,0 +1,40 @@
+{
+  "name": "metalsmith-move",
+  "version": "0.0.1",
+  "description": "metalsmith plugin to edit file paths",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha --reporter spec --timeout 5000",
+    "docs": "./node_modules/docker/docker -o ./docs -x .README.md,README.md,test,node_modules,notes,docs,.git",
+    "readme": "node ./node_modules/.bin/node-readme"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leviwheatcroft/metalsmith-move.git"
+  },
+  "keywords": [
+    "metalsmith",
+    "plugin",
+    "paths",
+    "move"
+  ],
+  "author": "Levi Wheatcroft <levi@wheatcrofts.com.au> (http://leviwheatcroft.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leviwheatcroft/metalsmith-move/issues"
+  },
+  "homepage": "https://github.com/leviwheatcroft/metalsmith-move#readme",
+  "dependencies": {
+    "lodash": "^4.16.4",
+    "metalsmith": "^2.2.0",
+    "moment": "^2.15.1",
+    "multimatch": "^2.1.0",
+    "slug": "^0.9.1"
+  },
+  "devDependencies": {
+    "docker": "^1.0.0",
+    "mocha": "^3.1.2",
+    "mocha-jshint": "^2.3.1",
+    "node-readme": "^0.1.9"
+  }
+}
