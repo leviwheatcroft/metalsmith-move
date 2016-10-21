@@ -1,23 +1,20 @@
-let Metalsmith    = require('metalsmith')
-let assert        = require('assert')
-let move          = require('../lib')
-require('mocha-jshint')({
-  paths: [
-    'lib/index.js'
-  ]
-})
+import Metalsmith from 'metalsmith'
+import assert from 'assert'
+import move from '../lib'
+import lint from 'mocha-eslint'
 
+lint(['lib/index.js'])
 
 describe('metalsmith-move', () => {
   it('should be able to interpolate tokens', (done) => {
     Metalsmith('test/fixtures')
     .use(move({
-      'one.html': ':title:extname',
-      'sub': ':relative/:filename'
+      'one.html': '{YYYY}/{title}{ext}',
+      'sub': '{relative}/{base}'
     }))
     .build((err, files) => {
       if (err) return done(err)
-      assert.ok(files['page-one-title.html'])
+      assert.ok(files['2016/page-one-title.html'])
       assert.ok(files['dir/deep.html'])
       done()
     })
@@ -25,7 +22,7 @@ describe('metalsmith-move', () => {
   it('should be able to flatten directory structure', (done) => {
     Metalsmith('test/fixtures')
     .use(move({
-      '**/*': ':filename'
+      '**/*': '{base}'
     }))
     .build((err, files) => {
       if (err) return done(err)
@@ -36,7 +33,7 @@ describe('metalsmith-move', () => {
   it('should allow patched date fn', (done) => {
     Metalsmith('test/fixtures')
     .use(move(
-      { 'one.html': ':YYYY/:filename' },
+      { 'one.html': '{YYYY}/{base}' },
       { date: () => '2020-10-15' }
     ))
     .build((err, files) => {
@@ -45,6 +42,15 @@ describe('metalsmith-move', () => {
       done()
     })
   })
+  it('should ignore files as required', (done) => {
+    Metalsmith('test/fixtures')
+    .use(move(
+      { 'one.html': false }
+    ))
+    .build((err, files) => {
+      if (err) return done(err)
+      assert.equal(files['one.html'], undefined)
+      done()
+    })
+  })
 })
-
-

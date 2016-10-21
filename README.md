@@ -32,10 +32,10 @@ pages/about/projects.html
 ```
 metalsmith()
 .use(move({
-  'articles/one.html'   : ':filename',              // one.html
-  'articles/two.html'   : 'blog/:YYYY/:filename',   // blog/2016/two.html
-  'articles/three.html' : ':title:extname'          // article-title.html
-  'pages'               : ':relative:filename'      // about/projects.html
+  'articles/one.html'   : '{base}',               // one.html
+  'articles/two.html'   : 'blog/{YYYY}/{base}',   // blog/2016/two.html
+  'articles/three.html' : '{title}{ext}'          // article-title.html
+  'pages'               : '{relative}/{base}'     // about/projects.html
 })
 ```
 
@@ -43,18 +43,30 @@ metalsmith()
 
 __ from path __
 
- - *:filename* full filename, including extension, omits path
- - *:basename* filename excluding extension
- - *:extname* file extension, preceded by `.`
- - *:dirname* path from src directory
- - *:relative* path from specified mask directory (see usage example)
+properties returned by `path.parse`:
+
+```
+┌─────────────────────┬────────────┐
+│          dir        │    base    │
+├──────┬              ├──────┬─────┤
+│ root │              │ name │ ext │
+"  /    home/user/dir / file  .txt "
+└──────┴──────────────┴──────┴─────┘
+```
+
+
+ - *{base}* name & ext
+ - *{name}*
+ - *{ext}* includes the `.` in `.txt`
+ - *{dir}* path from src directory
+ - *{relative}* path from specified mask directory (see usage example)
 
 __ from moment __
 
 basically any format tokens
-[from moment](http://momentjs.com/docs/#/displaying/) including only 'D' or 'M'
-or 'Y'. You need to specify a token for each value, as in:
-`:YYYY-:MMMM/:filename`
+[from moment](http://momentjs.com/docs/#/displaying/) including only characters
+defined by `/[MDY\-_\.\/]/`. So `{YYYY/MMMM}` returns `2016/October` or
+whatever.
 
 If a `date` field is set in a file's frontmatter, then that value will be used,
 otherwise `ctime` (file created time) is used instead. Note that moment can
@@ -71,7 +83,7 @@ the file's title to a slug. You can patch the slug generation fn as shown above.
 ```
 .use(move(
   {
-    'blog': ':YYYY/:MMMM/:title'
+    'blog': '{YYYY/MMMM}/{title}'
   },
   {
     date: (meta) => '2016-10-26',
@@ -92,5 +104,3 @@ branch.
 ## License
 
  - **MIT** : http://opensource.org/licenses/MIT
-
-
