@@ -9,7 +9,7 @@ describe('metalsmith-move', () => {
   it('should be able to interpolate tokens', (done) => {
     Metalsmith('test/fixtures')
     .use(move({
-      'one.html': '{YYYY}/{title}{ext}',
+      'one.html': '{YYYY}/{-title}{ext}',
       'sub': '{relative}/{base}'
     }))
     .build((err, files) => {
@@ -27,18 +27,6 @@ describe('metalsmith-move', () => {
     .build((err, files) => {
       if (err) return done(err)
       assert.ok(files['deep.html'])
-      done()
-    })
-  })
-  it('should allow patched date fn', (done) => {
-    Metalsmith('test/fixtures')
-    .use(move(
-      { 'one.html': '{YYYY}/{base}' },
-      { date: () => '2020-10-15' }
-    ))
-    .build((err, files) => {
-      if (err) return done(err)
-      assert.ok(files['2020/one.html'])
       done()
     })
   })

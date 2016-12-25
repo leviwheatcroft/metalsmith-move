@@ -6,7 +6,7 @@
   "scripts": {
     "docs": "./node_modules/docker/docker -o ./docs -x .README.md,README.md,test,node_modules,notes,docs,.git",
     "readme": "node ./node_modules/.bin/node-readme",
-    "build": "babel lib -d dist",
+    "build": "babel lib --watch -d dist",
     "test": "npm run lint && npm run coverage-tests",
     "lint": "eslint src test",
     "coverage-tests": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text --check-coverage --lines 100 npm run unit-tests",
@@ -40,7 +40,7 @@
   "dependencies": {
     "lodash": "^4.16.4",
     "metalsmith": "^2.2.0",
-    "moment": "^2.15.1",
+    "metalsmith-interpolate": "github:leviwheatcroft/metalsmith-interpolate",
     "multimatch": "^2.1.0",
     "slug": "^0.9.1"
   },
@@ -82,10 +82,15 @@
     }
   },
   "babel": {
-    "presets": ["stage-0","es2015-node6"],
+    "presets": [
+      "stage-0",
+      "es2015-node6"
+    ],
     "env": {
       "test": {
-        "plugins": ["istanbul"]
+        "plugins": [
+          "istanbul"
+        ]
       }
     }
   },
