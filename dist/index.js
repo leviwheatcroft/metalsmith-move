@@ -61,7 +61,7 @@ var _debug2 = _interopRequireDefault(_debug);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 let dbg = (0, _debug2.default)('metalsmith-move');
-dbg('interpolate', _metalsmithInterpolate.interpolate);
+
 /**
  * getPlugin
  *
