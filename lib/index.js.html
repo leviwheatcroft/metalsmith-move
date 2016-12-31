@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>index.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../doc-style.css" />
+  <script src="../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../", thisFile = "lib/index.js", defaultSidebar = true;
+  </script>
+  <script src="../doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+          <h1>index.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="kr">import</span> <span class="p">{</span>
+  <span class="nx">map</span><span class="p">,</span>
+  <span class="nx">sortBy</span><span class="p">,</span>
+  <span class="nx">each</span><span class="p">,</span>
+  <span class="nx">unset</span><span class="p">,</span>
+  <span class="nx">keys</span>
+<span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;lodash&#39;</span>
+<span class="kr">import</span> <span class="p">{</span>
+  <span class="nx">interpolate</span>
+<span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;metalsmith-interpolate&#39;</span>
+<span class="kr">import</span> <span class="nx">multimatch</span> <span class="nx">from</span> <span class="s1">&#39;multimatch&#39;</span>
+<span class="kr">import</span> <span class="nx">fs</span> <span class="nx">from</span> <span class="s1">&#39;fs&#39;</span>
+<span class="kr">import</span> <span class="nx">path</span> <span class="nx">from</span> <span class="s1">&#39;path&#39;</span>
+<span class="kr">import</span> <span class="nx">debug</span> <span class="nx">from</span> <span class="s1">&#39;debug&#39;</span>
+
+<span class="kd">let</span> <span class="nx">dbg</span> <span class="o">=</span> <span class="nx">debug</span><span class="p">(</span><span class="s1">&#39;metalsmith-move&#39;</span><span class="p">)</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>getPlugin</p>
+  </div>
+  <div class="body"><p>this fn is exported as the module, designed to be called by <code>metalsmith#use</code></p>
+
+<div class='highlight'><pre><code language=''>.use(move(
+  {
+    'blog': ':YYYY/:MMMM/:title'
+  },
+  {
+    date: (meta) =&gt; '2016-10-26',
+    slug: (str)  =&gt; str.replace(/\s/g, '_')
+  }
+ ))
+</code></pre></div>
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">operations</span>
+      <span class="dox_type">Object</span>
+      <span>src dest key value</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">options</span>
+      <span class="dox_type">Object</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">options.date</span>
+      <span class="dox_type">Function</span>
+      <span><ul>
+<li>date parsing fn</li>
+</ul></span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">options.slug</span>
+      <span class="dox_type">Function</span>
+      <span><ul>
+<li>slug parsing fn</li>
+</ul></span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">operations</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span><span class="nx">files</span><span class="p">,</span> <span class="nx">metalsmith</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>delete operations should be done last, so map &amp; sort in an array</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="kd">let</span> <span class="nx">ops</span> <span class="o">=</span> <span class="nx">map</span><span class="p">(</span><span class="nx">operations</span><span class="p">,</span> <span class="p">(</span><span class="nx">dest</span><span class="p">,</span> <span class="nx">src</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">src</span><span class="p">,</span>
+        <span class="nx">dest</span><span class="p">,</span>
+        <span class="nx">root</span><span class="o">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">metalsmith</span><span class="p">.</span><span class="nx">_directory</span><span class="p">,</span> <span class="nx">metalsmith</span><span class="p">.</span><span class="nx">_source</span><span class="p">)</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+    <span class="nx">ops</span> <span class="o">=</span> <span class="nx">sortBy</span><span class="p">(</span><span class="nx">ops</span><span class="p">,</span> <span class="p">(</span><span class="nx">op</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">op</span><span class="p">.</span><span class="nx">dest</span> <span class="o">===</span> <span class="kc">false</span><span class="p">))</span>
+
+    <span class="nx">each</span><span class="p">(</span><span class="nx">ops</span><span class="p">,</span> <span class="p">(</span><span class="nx">op</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">srcPaths</span> <span class="o">=</span> <span class="nx">filterFiles</span><span class="p">(</span><span class="nx">files</span><span class="p">,</span> <span class="nx">op</span><span class="p">)</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>if this operation is just ignoring files, we can do that &amp; return here</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">op</span><span class="p">.</span><span class="nx">dest</span> <span class="o">===</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">each</span><span class="p">(</span><span class="nx">srcPaths</span><span class="p">,</span> <span class="p">(</span><span class="nx">srcPath</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">unset</span><span class="p">(</span><span class="nx">files</span><span class="p">,</span> <span class="nx">srcPath</span><span class="p">))</span>
+        <span class="k">return</span>
+      <span class="p">}</span>
+      <span class="nx">each</span><span class="p">(</span><span class="nx">srcPaths</span><span class="p">,</span> <span class="p">(</span><span class="nx">srcPath</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nx">destPath</span>
+        <span class="kd">let</span> <span class="nx">relative</span>
+        <span class="nx">relative</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">relative</span><span class="p">(</span><span class="nx">op</span><span class="p">.</span><span class="nx">src</span><span class="p">,</span> <span class="nx">srcPath</span><span class="p">)).</span><span class="nx">dir</span>
+        <span class="nx">destPath</span> <span class="o">=</span> <span class="nx">interpolate</span><span class="p">(</span><span class="nx">op</span><span class="p">.</span><span class="nx">dest</span><span class="p">,</span> <span class="nx">srcPath</span><span class="p">,</span> <span class="nx">files</span><span class="p">,</span> <span class="p">{</span><span class="nx">relative</span><span class="p">})</span>
+        <span class="nx">destPath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">normalize</span><span class="p">(</span><span class="s1">&#39;./&#39;</span> <span class="o">+</span> <span class="nx">destPath</span><span class="p">)</span>
+        <span class="nx">files</span><span class="p">[</span><span class="nx">destPath</span><span class="p">]</span> <span class="o">=</span> <span class="nx">files</span><span class="p">[</span><span class="nx">srcPath</span><span class="p">]</span>
+        <span class="k">delete</span> <span class="nx">files</span><span class="p">[</span><span class="nx">srcPath</span><span class="p">]</span>
+        <span class="nx">dbg</span><span class="p">(</span><span class="nx">srcPath</span> <span class="o">+</span> <span class="s1">&#39; &gt; &#39;</span> <span class="o">+</span> <span class="nx">destPath</span><span class="p">)</span>
+      <span class="p">})</span>
+    <span class="p">})</span>
+    <span class="nx">done</span><span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>filterFiles</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">files</span>
+      <span class="dox_type">Object</span>
+      <span><ul>
+<li>as passed into plugins from metalsmith</li>
+</ul></span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">op</span>
+      <span class="dox_type">Object</span>
+      <span><ul>
+<li>a single operation for move</li>
+</ul></span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="kd">let</span> <span class="nx">filterFiles</span> <span class="o">=</span> <span class="p">(</span><span class="nx">files</span><span class="p">,</span> <span class="nx">op</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">isDir</span> <span class="o">=</span> <span class="kc">false</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+</div>
+<p>using a try / catch here avoids making the whole deal async</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="nx">isDir</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">statSync</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">op</span><span class="p">.</span><span class="nx">root</span><span class="p">,</span> <span class="nx">op</span><span class="p">.</span><span class="nx">src</span><span class="p">)).</span><span class="nx">isDirectory</span><span class="p">()</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">code</span> <span class="o">!==</span> <span class="s1">&#39;ENOENT&#39;</span><span class="p">)</span> <span class="k">throw</span> <span class="nx">err</span>
+  <span class="p">}</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+</div>
+<p>add a <code>**/*</code> mask if the src specifies a directory</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="kd">let</span> <span class="nx">src</span> <span class="o">=</span> <span class="nx">isDir</span> <span class="o">?</span> <span class="nx">op</span><span class="p">.</span><span class="nx">src</span> <span class="o">+</span> <span class="nx">path</span><span class="p">.</span><span class="nx">sep</span> <span class="o">+</span> <span class="s1">&#39;**&#39;</span> <span class="o">+</span> <span class="nx">path</span><span class="p">.</span><span class="nx">sep</span> <span class="o">+</span> <span class="s1">&#39;*&#39;</span> <span class="o">:</span> <span class="nx">op</span><span class="p">.</span><span class="nx">src</span>
+
+  <span class="k">return</span> <span class="nx">multimatch</span><span class="p">(</span><span class="nx">keys</span><span class="p">(</span><span class="nx">files</span><span class="p">),</span> <span class="nx">src</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>

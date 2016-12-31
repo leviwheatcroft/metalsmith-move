@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>README.md</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="doc-style.css" />
+  <script src="doc-filelist.js"></script>
+  <script>
+    var relativeDir = "", thisFile = "README.md", defaultSidebar = true;
+  </script>
+  <script src="doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+      <div class="heading h1">
+        <a href="#metalsmith-move">metalsmith-move</a>
+      </div>
+      <div class="heading h2">
+        <a href="#install">install</a>
+      </div>
+      <div class="heading h2">
+        <a href="#usage">usage</a>
+      </div>
+      <div class="heading h2">
+        <a href="#tokens">tokens</a>
+      </div>
+      <div class="heading h2">
+        <a href="#options">options</a>
+      </div>
+      <div class="heading h2">
+        <a href="#author">Author</a>
+      </div>
+      <div class="heading h2">
+        <a href="#contributing">Contributing</a>
+      </div>
+      <div class="heading h2">
+        <a href="#license">License</a>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="docs markdown">
+<div class="pilwrap" id="metalsmith-move">
+  <h1>
+    <a href="#metalsmith-move" name="metalsmith-move" class="pilcrow">&#182;</a>
+    metalsmith-move
+  </h1>
+</div>
+
+
+<p><img src="https://nodei.co/npm/metalsmith-move.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="nodei.co" title="" /></p>
+
+<p><img src="https://img.shields.io/npm/v/metalsmith-move.svg" alt="npm" title="" /></p>
+
+<p><img src="https://img.shields.io/github/issues/leviwheatcroft/metalsmith-move.svg" alt="github-issues" title="" /></p>
+
+<p><img src="https://img.shields.io/github/stars/leviwheatcroft/metalsmith-move.svg" alt="stars" title="" /></p>
+
+<p><img src="https://img.shields.io/github/forks/leviwheatcroft/metalsmith-move.svg" alt="forks" title="" /></p>
+
+<p><a href="metalsmith.io">metalsmith</a> plugin to edit file paths</p>
+
+
+<div class="pilwrap" id="install">
+  <h2>
+    <a href="#install" name="install" class="pilcrow">&#182;</a>
+    install
+  </h2>
+</div>
+
+
+<p><code>npm i --save metalsmith-move</code></p>
+
+
+<div class="pilwrap" id="usage">
+  <h2>
+    <a href="#usage" name="usage" class="pilcrow">&#182;</a>
+    usage
+  </h2>
+</div>
+
+
+<p>The plugin accepts a single argument in the form <code>{src: format, ...}</code> like so:</p>
+
+
+<div class="highlight"><pre><code><span class="nx">metalsmith</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">move</span><span class="p">({</span>
+  <span class="s1">&#39;articles&#39;</span><span class="o">:</span> <span class="s1">&#39;{-title}{ext}&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;pages&#39;</span><span class="o">:</span> <span class="s1">&#39;{relative}/{base}&#39;</span>
+<span class="p">}))</span>
+</code></pre></div>
+
+
+
+<p>this call would move paths like this:</p>
+
+<div class='highlight'><pre><code language=''>articles/one.html           &gt;   article-one-title.html
+articles/two.html           &gt;   article-two-title.html
+pages/about/projects.html   &gt;   about/projects.html
+</code></pre></div>
+
+<p><code>src</code> can be any multimatch mask. <code>format</code> can be any
+<a href="">metalsmith-interpolate</a> format string.</p>
+
+
+<div class="pilwrap" id="tokens">
+  <h2>
+    <a href="#tokens" name="tokens" class="pilcrow">&#182;</a>
+    tokens
+  </h2>
+</div>
+
+
+<p><em>_ standard tokens _</em>
+Anything from <a href="">metalsmith-interpolate</a> is available, check that package for
+details but for quick reference:</p>
+
+<ul>
+<li>path tokens like: root, dir, name, base, ext</li>
+<li>meta tokens like: title, author, or anything else in your front matter</li>
+<li>date tokens like: {YY/MM/DD} (any moment format)</li>
+<li>put a <code>-</code> or <code>_</code> infront of the token to slugify like <code>{-title}</code></li>
+</ul>
+
+<p><em>_ relative path _</em>
+This package provides a <code>{relative}</code> token, as shown in the example above this
+token provides the relative path from the specified src directory. This token
+is only available where <code>src</code> specifies a directory as shown in the examples
+above.</p>
+
+
+<div class="pilwrap" id="options">
+  <h2>
+    <a href="#options" name="options" class="pilcrow">&#182;</a>
+    options
+  </h2>
+</div>
+
+
+<p>There's not really any options :-/</p>
+
+
+<div class="pilwrap" id="author">
+  <h2>
+    <a href="#author" name="author" class="pilcrow">&#182;</a>
+    Author
+  </h2>
+</div>
+
+
+<p>Levi Wheatcroft <a href="&#x6D;&#97;&#105;&#x6C;&#116;&#x6F;:&#x6C;&#x65;&#118;&#105;&#64;&#119;h&#x74;&#x2E;&#x63;&#114;">&#x6C;&#x65;&#118;&#105;&#64;&#119;h&#x74;&#x2E;&#x63;&#114;</a></p>
+
+
+<div class="pilwrap" id="contributing">
+  <h2>
+    <a href="#contributing" name="contributing" class="pilcrow">&#182;</a>
+    Contributing
+  </h2>
+</div>
+
+
+<p>Contributions welcome; Please submit all pull requests against the master
+branch.</p>
+
+
+<div class="pilwrap" id="license">
+  <h2>
+    <a href="#license" name="license" class="pilcrow">&#182;</a>
+    License
+  </h2>
+</div>
+
+
+<ul>
+<li><strong>MIT</strong> : <a href='http://opensource.org/licenses/MIT'>http://opensource.org/licenses/MIT</a></li>
+</ul></div>
+  </div>
+</body>
+</html>
