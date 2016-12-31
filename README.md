@@ -19,78 +19,46 @@
 
 ## usage
 
-Suppose your `src` contains three files:
+The plugin accepts a single argument in the form `{src: format, ...}` like so:
+
+```javascript
+metalsmith.use(move({
+  'articles': '{-title}{ext}',
+  'pages': '{relative}/{base}'
+}))
+```
+
+this call would move paths like this:
 
 ```
-articles/one.html
-articles/two.html
-articles/three.html
-pages/about/projects.html
+articles/one.html           >   article-one-title.html
+articles/two.html           >   article-two-title.html
+pages/about/projects.html   >   about/projects.html
 ```
 
-`move` would generate results like this in your `build` directory:
-```
-metalsmith()
-.use(move({
-  'articles/one.html'   : '{base}',               // one.html
-  'articles/two.html'   : 'blog/{YYYY}/{base}',   // blog/2016/two.html
-  'articles/three.html' : '{title}{ext}'          // article-title.html
-  'pages'               : '{relative}/{base}'     // about/projects.html
-})
-```
+`src` can be any multimatch mask. `format` can be any
+[metalsmith-interpolate]() format string.
 
 ## tokens
 
-__ from path __
+__ standard tokens __
+Anything from [metalsmith-interpolate]() is available, check that package for
+details but for quick reference:
 
-properties returned by `path.parse`:
+ * path tokens like: root, dir, name, base, ext
+ * meta tokens like: title, author, or anything else in your front matter
+ * date tokens like: {YY/MM/DD} (any moment format)
+ * put a `-` or `_` infront of the token to slugify like `{-title}`
 
-```
-┌─────────────────────┬────────────┐
-│          dir        │    base    │
-├──────┬              ├──────┬─────┤
-│ root │              │ name │ ext │
-"  /    home/user/dir / file  .txt "
-└──────┴──────────────┴──────┴─────┘
-```
-
-
- - *{base}* name & ext
- - *{name}*
- - *{ext}* includes the `.` in `.txt`
- - *{dir}* path from src directory
- - *{relative}* path from specified mask directory (see usage example)
-
-__ from moment __
-
-basically any format tokens
-[from moment](http://momentjs.com/docs/#/displaying/) including only characters
-defined by `/[MDY\-_\.\/]/`. So `{YYYY/MMMM}` returns `2016/October` or
-whatever.
-
-If a `date` field is set in a file's frontmatter, then that value will be used,
-otherwise `ctime` (file created time) is used instead. Note that moment can
-only parse dates formatted in limited ways. You can patch the date parser as
-shown in the example below.
-
-__ from meta __
-
-`move` will check the file's meta for token matches, so `:title` will convert
-the file's title to a slug. You can patch the slug generation fn as shown above.
+__ relative path __
+This package provides a `{relative}` token, as shown in the example above this
+token provides the relative path from the specified src directory. This token
+is only available where `src` specifies a directory as shown in the examples
+above.
 
 ## options
 
-```
-.use(move(
-  {
-    'blog': '{YYYY/MMMM}/{title}'
-  },
-  {
-    date: (meta) => '2016-10-26',
-    slug: (str)  => str.replace(/\s/g, '_')
-  }
-))
-```
+There's not really any options :-/
 
 ## Author
 

@@ -4,3 +4,4 @@ node_modules
 test/fixtures/build
 .nyc_output
 coverage
+docs
