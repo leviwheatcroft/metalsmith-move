@@ -37,12 +37,12 @@ pages/about/projects.html   >   about/projects.html
 ```
 
 `src` can be any multimatch mask. `format` can be any
-[metalsmith-interpolate]() format string.
+[metalsmith-interpolate](https://github.com/leviwheatcroft/metalsmith-interpolate) format string.
 
 ## tokens
 
 __ standard tokens __
-Anything from [metalsmith-interpolate]() is available, check that package for
+Anything from [metalsmith-interpolate](https://github.com/leviwheatcroft/metalsmith-interpolate) is available, check that package for
 details but for quick reference:
 
  * path tokens like: root, dir, name, base, ext
