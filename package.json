@@ -39,7 +39,7 @@
   "dependencies": {
     "lodash": "^4.16.4",
     "metalsmith": "^2.2.0",
-    "metalsmith-interpolate": "github:leviwheatcroft/metalsmith-interpolate",
+    "metalsmith-interpolate": "^0.1.2",
     "multimatch": "^2.1.0",
     "slug": "^0.9.1"
   },
