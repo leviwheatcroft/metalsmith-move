@@ -6,9 +6,12 @@
   <link rel="stylesheet" media="all" href="../doc-style.css" />
   <script src="../doc-filelist.js"></script>
   <script>
-    var relativeDir = "../", thisFile = "test/index.js", defaultSidebar = true;
+    var relativeDir = "../";
+    var thisFile = "test/index.js";
+    var defaultSidebar = true;
   </script>
   <script src="../doc-script.js"></script>
+
 </head>
 <body>
   <div id="sidebar_wrapper">
@@ -18,74 +21,80 @@
     </div>
     <div id="tree"></div>
     <div id="headings">
+
     </div>
   </div>
   <div id="sidebar-toggle"></div>
-  <div id="container"><div class="background highlight"></div>
+  <div id="container">
+    <div class="background highlight"></div>
 <table cellpadding="0" cellspacing="0">
   <tbody>
+    
       <tr>
         <td class="docs">
           <h1>index.js</h1>
         </td>
         <td class="code highlight"></td>
       </tr>
+    
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1"></a>
 </div>
 
         </td>
-        <td class="code highlight"><div class="highlight"><pre><span class="kr">import</span> <span class="nx">Metalsmith</span> <span class="nx">from</span> <span class="s1">&#39;metalsmith&#39;</span>
-<span class="kr">import</span> <span class="nx">assert</span> <span class="nx">from</span> <span class="s1">&#39;assert&#39;</span>
-<span class="kr">import</span> <span class="nx">move</span> <span class="nx">from</span> <span class="s1">&#39;../lib&#39;</span>
-<span class="kr">import</span> <span class="nx">lint</span> <span class="nx">from</span> <span class="s1">&#39;mocha-eslint&#39;</span>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">import</span> Metalsmith <span class="hljs-keyword">from</span> <span class="hljs-string">'metalsmith'</span>
+<span class="hljs-keyword">import</span> assert <span class="hljs-keyword">from</span> <span class="hljs-string">'assert'</span>
+<span class="hljs-keyword">import</span> move <span class="hljs-keyword">from</span> <span class="hljs-string">'../lib'</span>
 
-<span class="nx">lint</span><span class="p">([</span><span class="s1">&#39;lib/index.js&#39;</span><span class="p">])</span>
+describe(<span class="hljs-string">'metalsmith-move'</span>, () =&gt; {
+  it(<span class="hljs-string">'should be able to interpolate tokens'</span>, (done) =&gt; {
+    Metalsmith(<span class="hljs-string">'test/fixtures'</span>)
+    .use(move({
+      <span class="hljs-string">'one.html'</span>: <span class="hljs-string">'{YYYY}/{-title}{ext}'</span>,
+      <span class="hljs-string">'sub'</span>: <span class="hljs-string">'{relative}/{base}'</span>
+    }))
+    .build(<span class="hljs-function">(<span class="hljs-params">err, files</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> done(err)
+      assert.ok(files[<span class="hljs-string">'2016/page-one-title.html'</span>])
+      assert.ok(files[<span class="hljs-string">'dir/deep.html'</span>])
+      done()
+    })
+  })
+  it(<span class="hljs-string">'should be able to flatten directory structure'</span>, (done) =&gt; {
+    Metalsmith(<span class="hljs-string">'test/fixtures'</span>)
+    .use(move({
+      <span class="hljs-string">'**/*'</span>: <span class="hljs-string">'{base}'</span>
+    }))
+    .build(<span class="hljs-function">(<span class="hljs-params">err, files</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> done(err)
+      assert.ok(files[<span class="hljs-string">'deep.html'</span>])
+      done()
+    })
+  })
+  it(<span class="hljs-string">'should ignore files as required'</span>, (done) =&gt; {
+    Metalsmith(<span class="hljs-string">'test/fixtures'</span>)
+    .use(move(
+      { <span class="hljs-string">'one.html'</span>: <span class="hljs-literal">false</span> }
+    ))
+    .build(<span class="hljs-function">(<span class="hljs-params">err, files</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> done(err)
+      assert.equal(files[<span class="hljs-string">'one.html'</span>], <span class="hljs-literal">undefined</span>)
+      done()
+    })
+  })
+})
 
-<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;metalsmith-move&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should be able to interpolate tokens&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">done</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">Metalsmith</span><span class="p">(</span><span class="s1">&#39;test/fixtures&#39;</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">move</span><span class="p">({</span>
-      <span class="s1">&#39;one.html&#39;</span><span class="o">:</span> <span class="s1">&#39;{YYYY}/{-title}{ext}&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;sub&#39;</span><span class="o">:</span> <span class="s1">&#39;{relative}/{base}&#39;</span>
-    <span class="p">}))</span>
-    <span class="p">.</span><span class="nx">build</span><span class="p">((</span><span class="nx">err</span><span class="p">,</span> <span class="nx">files</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">done</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-      <span class="nx">assert</span><span class="p">.</span><span class="nx">ok</span><span class="p">(</span><span class="nx">files</span><span class="p">[</span><span class="s1">&#39;2016/page-one-title.html&#39;</span><span class="p">])</span>
-      <span class="nx">assert</span><span class="p">.</span><span class="nx">ok</span><span class="p">(</span><span class="nx">files</span><span class="p">[</span><span class="s1">&#39;dir/deep.html&#39;</span><span class="p">])</span>
-      <span class="nx">done</span><span class="p">()</span>
-    <span class="p">})</span>
-  <span class="p">})</span>
-  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should be able to flatten directory structure&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">done</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">Metalsmith</span><span class="p">(</span><span class="s1">&#39;test/fixtures&#39;</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">move</span><span class="p">({</span>
-      <span class="s1">&#39;**/*&#39;</span><span class="o">:</span> <span class="s1">&#39;{base}&#39;</span>
-    <span class="p">}))</span>
-    <span class="p">.</span><span class="nx">build</span><span class="p">((</span><span class="nx">err</span><span class="p">,</span> <span class="nx">files</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">done</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-      <span class="nx">assert</span><span class="p">.</span><span class="nx">ok</span><span class="p">(</span><span class="nx">files</span><span class="p">[</span><span class="s1">&#39;deep.html&#39;</span><span class="p">])</span>
-      <span class="nx">done</span><span class="p">()</span>
-    <span class="p">})</span>
-  <span class="p">})</span>
-  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should ignore files as required&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">done</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">Metalsmith</span><span class="p">(</span><span class="s1">&#39;test/fixtures&#39;</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">move</span><span class="p">(</span>
-      <span class="p">{</span> <span class="s1">&#39;one.html&#39;</span><span class="o">:</span> <span class="kc">false</span> <span class="p">}</span>
-    <span class="p">))</span>
-    <span class="p">.</span><span class="nx">build</span><span class="p">((</span><span class="nx">err</span><span class="p">,</span> <span class="nx">files</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">done</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">files</span><span class="p">[</span><span class="s1">&#39;one.html&#39;</span><span class="p">],</span> <span class="kc">undefined</span><span class="p">)</span>
-      <span class="nx">done</span><span class="p">()</span>
-    <span class="p">})</span>
-  <span class="p">})</span>
-<span class="p">})</span>
-</pre></div>
+</pre>
         </td>
       </tr>
+    
   </tbody>
 </table>
+
   </div>
 </body>
 </html>

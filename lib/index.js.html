@@ -6,9 +6,12 @@
   <link rel="stylesheet" media="all" href="../doc-style.css" />
   <script src="../doc-filelist.js"></script>
   <script>
-    var relativeDir = "../", thisFile = "lib/index.js", defaultSidebar = true;
+    var relativeDir = "../";
+    var thisFile = "lib/index.js";
+    var defaultSidebar = true;
   </script>
   <script src="../doc-script.js"></script>
+
 </head>
 <body>
   <div id="sidebar_wrapper">
@@ -18,57 +21,62 @@
     </div>
     <div id="tree"></div>
     <div id="headings">
+
     </div>
   </div>
   <div id="sidebar-toggle"></div>
-  <div id="container"><div class="background highlight"></div>
+  <div id="container">
+    <div class="background highlight"></div>
 <table cellpadding="0" cellspacing="0">
   <tbody>
+    
       <tr>
         <td class="docs">
           <h1>index.js</h1>
         </td>
         <td class="code highlight"></td>
       </tr>
+    
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1"></a>
 </div>
 
         </td>
-        <td class="code highlight"><div class="highlight"><pre><span class="kr">import</span> <span class="p">{</span>
-  <span class="nx">map</span><span class="p">,</span>
-  <span class="nx">sortBy</span><span class="p">,</span>
-  <span class="nx">each</span><span class="p">,</span>
-  <span class="nx">unset</span><span class="p">,</span>
-  <span class="nx">keys</span>
-<span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;lodash&#39;</span>
-<span class="kr">import</span> <span class="p">{</span>
-  <span class="nx">interpolate</span>
-<span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;metalsmith-interpolate&#39;</span>
-<span class="kr">import</span> <span class="nx">multimatch</span> <span class="nx">from</span> <span class="s1">&#39;multimatch&#39;</span>
-<span class="kr">import</span> <span class="nx">fs</span> <span class="nx">from</span> <span class="s1">&#39;fs&#39;</span>
-<span class="kr">import</span> <span class="nx">path</span> <span class="nx">from</span> <span class="s1">&#39;path&#39;</span>
-<span class="kr">import</span> <span class="nx">debug</span> <span class="nx">from</span> <span class="s1">&#39;debug&#39;</span>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">import</span> {
+  each,
+  unset,
+  keys
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'lodash'</span>
+<span class="hljs-keyword">import</span> {
+  interpolate
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'metalsmith-interpolate'</span>
+<span class="hljs-keyword">import</span> multimatch <span class="hljs-keyword">from</span> <span class="hljs-string">'multimatch'</span>
+<span class="hljs-keyword">import</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">'fs'</span>
+<span class="hljs-keyword">import</span> path <span class="hljs-keyword">from</span> <span class="hljs-string">'path'</span>
+<span class="hljs-keyword">import</span> debug <span class="hljs-keyword">from</span> <span class="hljs-string">'debug'</span>
 
-<span class="kd">let</span> <span class="nx">dbg</span> <span class="o">=</span> <span class="nx">debug</span><span class="p">(</span><span class="s1">&#39;metalsmith-move&#39;</span><span class="p">)</span>
+<span class="hljs-keyword">let</span> dbg = debug(<span class="hljs-string">'metalsmith-move'</span>)
 
-
-</pre></div>
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2"></a>
 </div>
 <div class="dox">
-  <div class="summary"><p>getPlugin</p>
-  </div>
-  <div class="body"><p>this fn is exported as the module, designed to be called by <code>metalsmith#use</code></p>
-
-<div class='highlight'><pre><code language=''>.use(move(
+<div class="summary">
+<p>getPlugin</p>
+</div>
+<div class="body">
+<p>this fn is exported as the module, designed to be called by <code>metalsmith#use</code></p>
+<pre><code>.use(move(
   {
     'blog': ':YYYY/:MMMM/:title'
   },
@@ -77,168 +85,201 @@
     slug: (str)  =&gt; str.replace(/\s/g, '_')
   }
  ))
-</code></pre></div>
-  </div>
-  <div class="details">
-    <div class="dox_tag_title">Params</div>
-    <div class="dox_tag_detail">
-      <span class="dox_tag_name">operations</span>
-      <span class="dox_type">Object</span>
-      <span>src dest key value</span>
-    </div>
-    <div class="dox_tag_detail">
-      <span class="dox_tag_name">options</span>
-      <span class="dox_type">Object</span>
-    </div>
-    <div class="dox_tag_detail">
-      <span class="dox_tag_name">options.date</span>
-      <span class="dox_type">Function</span>
-      <span><ul>
-<li>date parsing fn</li>
-</ul></span>
-    </div>
-    <div class="dox_tag_detail">
-      <span class="dox_tag_name">options.slug</span>
-      <span class="dox_type">Function</span>
-      <span><ul>
-<li>slug parsing fn</li>
-</ul></span>
-    </div>
-  </div>
+</code></pre>
 </div>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">operations</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="p">(</span><span class="nx">files</span><span class="p">,</span> <span class="nx">metalsmith</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">operations</span>
+<span class="dox_type">Object</span>
+<span>src dest key value
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">options</span>
+<span class="dox_type">Object</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">options.date</span>
+<span class="dox_type">Function</span>
+<span><ul>
+<li>date parsing fn</li>
+</ul>
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">options.slug</span>
+<span class="dox_type">Function</span>
+<span><ul>
+<li>slug parsing fn</li>
+</ul>
+</span>
+</div>
+</div>
+</div>
 
-</pre></div>
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">move</span> (<span class="hljs-params">operations</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">files, metalsmith, done</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> ops = <span class="hljs-built_in">Object</span>.keys(operations).map(<span class="hljs-function">(<span class="hljs-params">src</span>) =&gt;</span> {
+      <span class="hljs-keyword">return</span> {
+        src,
+        <span class="hljs-attr">dest</span>: operations[src],
+        <span class="hljs-attr">root</span>: path.join(metalsmith._directory, metalsmith._source)
+      }
+    })
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3"></a>
 </div>
 <p>delete operations should be done last, so map &amp; sort in an array</p>
+
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-    <span class="kd">let</span> <span class="nx">ops</span> <span class="o">=</span> <span class="nx">map</span><span class="p">(</span><span class="nx">operations</span><span class="p">,</span> <span class="p">(</span><span class="nx">dest</span><span class="p">,</span> <span class="nx">src</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="p">{</span>
-        <span class="nx">src</span><span class="p">,</span>
-        <span class="nx">dest</span><span class="p">,</span>
-        <span class="nx">root</span><span class="o">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">metalsmith</span><span class="p">.</span><span class="nx">_directory</span><span class="p">,</span> <span class="nx">metalsmith</span><span class="p">.</span><span class="nx">_source</span><span class="p">)</span>
-      <span class="p">}</span>
-    <span class="p">})</span>
-    <span class="nx">ops</span> <span class="o">=</span> <span class="nx">sortBy</span><span class="p">(</span><span class="nx">ops</span><span class="p">,</span> <span class="p">(</span><span class="nx">op</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">op</span><span class="p">.</span><span class="nx">dest</span> <span class="o">===</span> <span class="kc">false</span><span class="p">))</span>
+        <td class="code highlight">
+          <pre class="javascript">    ops.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> b.dest === <span class="hljs-literal">false</span> ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>)
 
-    <span class="nx">each</span><span class="p">(</span><span class="nx">ops</span><span class="p">,</span> <span class="p">(</span><span class="nx">op</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="kd">let</span> <span class="nx">srcPaths</span> <span class="o">=</span> <span class="nx">filterFiles</span><span class="p">(</span><span class="nx">files</span><span class="p">,</span> <span class="nx">op</span><span class="p">)</span>
-
-</pre></div>
+    each(ops, (op) =&gt; {
+      <span class="hljs-keyword">let</span> srcPaths = filterFiles(files, op)
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4"></a>
 </div>
 <p>if this operation is just ignoring files, we can do that &amp; return here</p>
+
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">op</span><span class="p">.</span><span class="nx">dest</span> <span class="o">===</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">each</span><span class="p">(</span><span class="nx">srcPaths</span><span class="p">,</span> <span class="p">(</span><span class="nx">srcPath</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">unset</span><span class="p">(</span><span class="nx">files</span><span class="p">,</span> <span class="nx">srcPath</span><span class="p">))</span>
-        <span class="k">return</span>
-      <span class="p">}</span>
-      <span class="nx">each</span><span class="p">(</span><span class="nx">srcPaths</span><span class="p">,</span> <span class="p">(</span><span class="nx">srcPath</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="kd">let</span> <span class="nx">destPath</span>
-        <span class="kd">let</span> <span class="nx">relative</span>
-        <span class="nx">relative</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">relative</span><span class="p">(</span><span class="nx">op</span><span class="p">.</span><span class="nx">src</span><span class="p">,</span> <span class="nx">srcPath</span><span class="p">)).</span><span class="nx">dir</span>
-        <span class="nx">destPath</span> <span class="o">=</span> <span class="nx">interpolate</span><span class="p">(</span><span class="nx">op</span><span class="p">.</span><span class="nx">dest</span><span class="p">,</span> <span class="nx">srcPath</span><span class="p">,</span> <span class="nx">files</span><span class="p">,</span> <span class="p">{</span><span class="nx">relative</span><span class="p">})</span>
-        <span class="nx">destPath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">normalize</span><span class="p">(</span><span class="s1">&#39;./&#39;</span> <span class="o">+</span> <span class="nx">destPath</span><span class="p">)</span>
-        <span class="nx">files</span><span class="p">[</span><span class="nx">destPath</span><span class="p">]</span> <span class="o">=</span> <span class="nx">files</span><span class="p">[</span><span class="nx">srcPath</span><span class="p">]</span>
-        <span class="k">delete</span> <span class="nx">files</span><span class="p">[</span><span class="nx">srcPath</span><span class="p">]</span>
-        <span class="nx">dbg</span><span class="p">(</span><span class="nx">srcPath</span> <span class="o">+</span> <span class="s1">&#39; &gt; &#39;</span> <span class="o">+</span> <span class="nx">destPath</span><span class="p">)</span>
-      <span class="p">})</span>
-    <span class="p">})</span>
-    <span class="nx">done</span><span class="p">()</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-
-</pre></div>
+        <td class="code highlight">
+          <pre class="javascript">      <span class="hljs-keyword">if</span> (op.dest === <span class="hljs-literal">false</span>) {
+        each(srcPaths, (srcPath) =&gt; unset(files, srcPath))
+        <span class="hljs-keyword">return</span>
+      }
+      each(srcPaths, (srcPath) =&gt; {
+        <span class="hljs-keyword">let</span> destPath
+        <span class="hljs-keyword">let</span> relative
+        relative = path.parse(path.relative(op.src, srcPath)).dir
+        destPath = interpolate(op.dest, srcPath, files, {relative})
+        destPath = path.normalize(<span class="hljs-string">'./'</span> + destPath)
+        files[destPath] = files[srcPath]
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5"></a>
+</div>
+<p>setting <code>path</code> param is a common convention, useful for collections,
+tags, et cetera. If that param has been set, and it matches the
+previous path, update it to the new path.</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">        <span class="hljs-keyword">if</span> (files[destPath].path === srcPath) {
+          files[destPath].path = destPath
+        }
+        <span class="hljs-keyword">delete</span> files[srcPath]
+        dbg(srcPath + <span class="hljs-string">' &gt; '</span> + destPath)
+      })
+    })
+    done()
+  }
+}
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6"></a>
 </div>
 <div class="dox">
-  <div class="summary"><p>filterFiles</p>
-  </div>
-  <div class="body">
-  </div>
-  <div class="details">
-    <div class="dox_tag_title">Params</div>
-    <div class="dox_tag_detail">
-      <span class="dox_tag_name">files</span>
-      <span class="dox_type">Object</span>
-      <span><ul>
-<li>as passed into plugins from metalsmith</li>
-</ul></span>
-    </div>
-    <div class="dox_tag_detail">
-      <span class="dox_tag_name">op</span>
-      <span class="dox_type">Object</span>
-      <span><ul>
-<li>a single operation for move</li>
-</ul></span>
-    </div>
-  </div>
+<div class="summary">
+<p>filterFiles</p>
 </div>
+<div class="body">
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">files</span>
+<span class="dox_type">Object</span>
+<span><ul>
+<li>as passed into plugins from metalsmith</li>
+</ul>
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">op</span>
+<span class="dox_type">Object</span>
+<span><ul>
+<li>a single operation for move</li>
+</ul>
+</span>
+</div>
+</div>
+</div>
+
         </td>
-        <td class="code highlight"><div class="highlight"><pre>
-<span class="kd">let</span> <span class="nx">filterFiles</span> <span class="o">=</span> <span class="p">(</span><span class="nx">files</span><span class="p">,</span> <span class="nx">op</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">let</span> <span class="nx">isDir</span> <span class="o">=</span> <span class="kc">false</span>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">let</span> filterFiles = <span class="hljs-function">(<span class="hljs-params">files, op</span>) =&gt;</span> {
+  <span class="hljs-keyword">let</span> isDir = <span class="hljs-literal">false</span>
 
-
-</pre></div>
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7"></a>
 </div>
 <p>using a try / catch here avoids making the whole deal async</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-  <span class="k">try</span> <span class="p">{</span>
-    <span class="nx">isDir</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">statSync</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">op</span><span class="p">.</span><span class="nx">root</span><span class="p">,</span> <span class="nx">op</span><span class="p">.</span><span class="nx">src</span><span class="p">)).</span><span class="nx">isDirectory</span><span class="p">()</span>
-  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">code</span> <span class="o">!==</span> <span class="s1">&#39;ENOENT&#39;</span><span class="p">)</span> <span class="k">throw</span> <span class="nx">err</span>
-  <span class="p">}</span>
 
-</pre></div>
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  <span class="hljs-keyword">try</span> {
+    isDir = fs.statSync(path.join(op.root, op.src)).isDirectory()
+  } <span class="hljs-keyword">catch</span> (err) {
+    <span class="hljs-keyword">if</span> (err.code !== <span class="hljs-string">'ENOENT'</span>) <span class="hljs-keyword">throw</span> err
+  }
+</pre>
         </td>
       </tr>
+    
       <tr>
         <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8"></a>
 </div>
 <p>add a <code>**/*</code> mask if the src specifies a directory</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-  <span class="kd">let</span> <span class="nx">src</span> <span class="o">=</span> <span class="nx">isDir</span> <span class="o">?</span> <span class="nx">op</span><span class="p">.</span><span class="nx">src</span> <span class="o">+</span> <span class="nx">path</span><span class="p">.</span><span class="nx">sep</span> <span class="o">+</span> <span class="s1">&#39;**&#39;</span> <span class="o">+</span> <span class="nx">path</span><span class="p">.</span><span class="nx">sep</span> <span class="o">+</span> <span class="s1">&#39;*&#39;</span> <span class="o">:</span> <span class="nx">op</span><span class="p">.</span><span class="nx">src</span>
 
-  <span class="k">return</span> <span class="nx">multimatch</span><span class="p">(</span><span class="nx">keys</span><span class="p">(</span><span class="nx">files</span><span class="p">),</span> <span class="nx">src</span><span class="p">)</span>
-<span class="p">}</span>
-</pre></div>
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  <span class="hljs-keyword">let</span> src = isDir ? op.src + path.sep + <span class="hljs-string">'**'</span> + path.sep + <span class="hljs-string">'*'</span> : op.src
+
+  <span class="hljs-keyword">return</span> multimatch(keys(files), src)
+}
+
+</pre>
         </td>
       </tr>
+    
   </tbody>
 </table>
+
   </div>
 </body>
 </html>
