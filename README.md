@@ -2,13 +2,7 @@
 
 ![nodei.co](https://nodei.co/npm/metalsmith-move.png?downloads=true&downloadRank=true&stars=true)
 
-![npm](https://img.shields.io/npm/v/metalsmith-move.svg)
-
-![github-issues](https://img.shields.io/github/issues/leviwheatcroft/metalsmith-move.svg)
-
-![stars](https://img.shields.io/github/stars/leviwheatcroft/metalsmith-move.svg)
-
-![forks](https://img.shields.io/github/forks/leviwheatcroft/metalsmith-move.svg)
+![npm](https://img.shields.io/npm/v/metalsmith-move.svg) ![github-issues](https://img.shields.io/github/issues/leviwheatcroft/metalsmith-move.svg) ![stars](https://img.shields.io/github/stars/leviwheatcroft/metalsmith-move.svg) ![forks](https://img.shields.io/github/forks/leviwheatcroft/metalsmith-move.svg)
 
 [metalsmith](metalsmith.io) plugin to edit file paths
 
@@ -37,12 +31,12 @@ pages/about/projects.html   >   about/projects.html
 ```
 
 `src` can be any multimatch mask. `format` can be any
-[metalsmith-interpolate](https://github.com/leviwheatcroft/metalsmith-interpolate) format string.
+[metalsmith-interpolate]() format string.
 
 ## tokens
 
 __ standard tokens __
-Anything from [metalsmith-interpolate](https://github.com/leviwheatcroft/metalsmith-interpolate) is available, check that package for
+Anything from [metalsmith-interpolate][metalsmith-interpolate] is available, check that package for
 details but for quick reference:
 
  * path tokens like: root, dir, name, base, ext
@@ -72,3 +66,5 @@ branch.
 ## License
 
  - **MIT** : http://opensource.org/licenses/MIT
+
+[metalsmith-interpolate]: "https://www.npmjs.com/package/metalsmith-interpolate" "metalsmith interpolate"

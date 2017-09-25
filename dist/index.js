@@ -3,40 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-exports.default = function (operations) {
-  return (files, metalsmith, done) => {
-    // delete operations should be done last, so map & sort in an array
-    let ops = (0, _lodash.map)(operations, (dest, src) => {
-      return {
-        src,
-        dest,
-        root: _path2.default.join(metalsmith._directory, metalsmith._source)
-      };
-    });
-    ops = (0, _lodash.sortBy)(ops, op => op.dest === false);
-
-    (0, _lodash.each)(ops, op => {
-      let srcPaths = filterFiles(files, op);
-      // if this operation is just ignoring files, we can do that & return here
-      if (op.dest === false) {
-        (0, _lodash.each)(srcPaths, srcPath => (0, _lodash.unset)(files, srcPath));
-        return;
-      }
-      (0, _lodash.each)(srcPaths, srcPath => {
-        let destPath;
-        let relative;
-        relative = _path2.default.parse(_path2.default.relative(op.src, srcPath)).dir;
-        destPath = (0, _metalsmithInterpolate.interpolate)(op.dest, srcPath, files, { relative });
-        destPath = _path2.default.normalize('./' + destPath);
-        files[destPath] = files[srcPath];
-        delete files[srcPath];
-        dbg(srcPath + ' > ' + destPath);
-      });
-    });
-    done();
-  };
-};
+exports.default = move;
 
 var _lodash = require('lodash');
 
@@ -84,7 +51,45 @@ let dbg = (0, _debug2.default)('metalsmith-move');
  * @param {Function} options.date - date parsing fn
  * @param {Function} options.slug - slug parsing fn
  */
+function move(operations) {
+  return (files, metalsmith, done) => {
+    let ops = Object.keys(operations).map(src => {
+      return {
+        src,
+        dest: operations[src],
+        root: _path2.default.join(metalsmith._directory, metalsmith._source)
+      };
+    });
+    // delete operations should be done last, so map & sort in an array
+    ops.sort((a, b) => b.dest === false ? -1 : 1);
 
+    (0, _lodash.each)(ops, op => {
+      let srcPaths = filterFiles(files, op);
+      // if this operation is just ignoring files, we can do that & return here
+      if (op.dest === false) {
+        (0, _lodash.each)(srcPaths, srcPath => (0, _lodash.unset)(files, srcPath));
+        return;
+      }
+      (0, _lodash.each)(srcPaths, srcPath => {
+        let destPath;
+        let relative;
+        relative = _path2.default.parse(_path2.default.relative(op.src, srcPath)).dir;
+        destPath = (0, _metalsmithInterpolate.interpolate)(op.dest, srcPath, files, { relative });
+        destPath = _path2.default.normalize('./' + destPath);
+        files[destPath] = files[srcPath];
+        // setting `path` param is a common convention, useful for collections,
+        // tags, et cetera. If that param has been set, and it matches the
+        // previous path, update it to the new path.
+        if (files[destPath].path === srcPath) {
+          files[destPath].path = destPath;
+        }
+        delete files[srcPath];
+        dbg(srcPath + ' > ' + destPath);
+      });
+    });
+    done();
+  };
+}
 
 /**
  * filterFiles

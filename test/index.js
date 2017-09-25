@@ -1,9 +1,6 @@
 import Metalsmith from 'metalsmith'
 import assert from 'assert'
 import move from '../lib'
-import lint from 'mocha-eslint'
-
-lint(['lib/index.js'])
 
 describe('metalsmith-move', () => {
   it('should be able to interpolate tokens', (done) => {
