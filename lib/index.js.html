@@ -7,7 +7,7 @@
   <script src="../doc-filelist.js"></script>
   <script>
     var relativeDir = "../";
-    var thisFile = "lib/index.js";
+    var thisFile = "lib\\index.js";
     var defaultSidebar = true;
   </script>
   <script src="../doc-script.js"></script>
@@ -73,19 +73,15 @@
 <div class="dox">
 <div class="summary">
 <p>getPlugin</p>
-</div>
-<div class="body">
 <p>this fn is exported as the module, designed to be called by <code>metalsmith#use</code></p>
 <pre><code>.use(move(
   {
     'blog': ':YYYY/:MMMM/:title'
-  },
-  {
-    date: (meta) =&gt; '2016-10-26',
-    slug: (str)  =&gt; str.replace(/\s/g, '_')
   }
  ))
 </code></pre>
+</div>
+<div class="body">
 </div>
 <div class="details">
 <div class="dox_tag_title">Params</div>
@@ -98,22 +94,6 @@
 <div class="dox_tag_detail">
 <span class="dox_tag_name">options</span>
 <span class="dox_type">Object</span>
-</div>
-<div class="dox_tag_detail">
-<span class="dox_tag_name">options.date</span>
-<span class="dox_type">Function</span>
-<span><ul>
-<li>date parsing fn</li>
-</ul>
-</span>
-</div>
-<div class="dox_tag_detail">
-<span class="dox_tag_name">options.slug</span>
-<span class="dox_type">Function</span>
-<span><ul>
-<li>slug parsing fn</li>
-</ul>
-</span>
 </div>
 </div>
 </div>
@@ -169,6 +149,10 @@
         relative = path.parse(path.relative(op.src, srcPath)).dir
         destPath = interpolate(op.dest, srcPath, files, {relative})
         destPath = path.normalize(<span class="hljs-string">'./'</span> + destPath)
+        <span class="hljs-keyword">if</span> (destPath === srcPath) {
+          dbg(<span class="hljs-string">`<span class="hljs-subst">${srcPath}</span> &gt; not moved`</span>)
+          <span class="hljs-keyword">return</span>
+        }
         files[destPath] = files[srcPath]
 </pre>
         </td>

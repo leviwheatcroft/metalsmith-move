@@ -1,1 +1,1 @@
-var tree={"files":["README.md","package-lock.json","package.json"],"dirs":{"lib":{"files":["index.js"]},"test":{"files":["index.js"]}}};
+var tree={"files":["package-lock.json","package.json","README.md"],"dirs":{"lib":{"files":["index.js"]},"test":{"files":["index.js"],"dirs":{"fixtures":{"dirs":{"src":{"files":["one.html","three.html","two.html"],"dirs":{"sub":{"dirs":{"dir":{"files":["deep.html"]}}}}}}}}}}};
