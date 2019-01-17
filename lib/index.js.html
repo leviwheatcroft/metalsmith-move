@@ -100,8 +100,8 @@
 
         </td>
         <td class="code highlight">
-          <pre class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">move</span> (<span class="hljs-params">operations</span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">files, metalsmith, done</span>) =&gt;</span> {
+          <pre class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">operations</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">move</span> (<span class="hljs-params">files, metalsmith, done</span>) </span>{
     <span class="hljs-keyword">let</span> ops = <span class="hljs-built_in">Object</span>.keys(operations).map(<span class="hljs-function">(<span class="hljs-params">src</span>) =&gt;</span> {
       <span class="hljs-keyword">return</span> {
         src,
@@ -125,6 +125,7 @@
           <pre class="javascript">    ops.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> b.dest === <span class="hljs-literal">false</span> ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>)
 
     each(ops, (op) =&gt; {
+      dbg(<span class="hljs-string">`running <span class="hljs-subst">${op.src}</span> &gt; <span class="hljs-subst">${op.dest}</span>`</span>)
       <span class="hljs-keyword">let</span> srcPaths = filterFiles(files, op)
 </pre>
         </td>
